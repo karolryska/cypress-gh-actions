@@ -102,7 +102,7 @@ describe('example to-do app', () => {
 			// that only completed tasks are shown
 			cy.contains('Completed').click();
 
-			cy.get('.todo-list li')
+			cy.get('.todo-listt li')
 				.should('have.length', 1)
 				.first()
 				.should('have.text', 'Pay electric bill');
