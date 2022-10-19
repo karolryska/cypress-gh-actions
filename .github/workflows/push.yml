@@ -1,0 +1,45 @@
+name: E2E tests
+
+on: push
+
+jobs:
+    cypress-test:
+        name: Run cypress tests
+        runs-on: ubuntu-latest
+        steps:
+            - name: Checkout the repository
+              uses: actions/checkout@v3
+
+            - name: Setup Node
+              uses: actions/setup-node@v3
+              with:
+                  node-version: '16'
+
+            - name: Cache
+              uses: actions/cache@v3
+              with:
+                  path: ${{ github.workspace }}/node_modules
+                  key: ${{ runner.os }}-nextjs-${{ hashFiles('**/package-lock.json') }}
+
+            - name: Install dependencies
+              run: |
+                  npm install
+
+            - name: Run cypress
+              uses: cypress-io/github-action@v4
+              with:
+                  start: npm run start
+
+            - name: Get screenshots artifacts
+              uses: actions/upload-artifact@v2
+              if: failure()
+              with:
+                  name: cypress-screenshots
+                  path: cypress/screenshots
+
+            - name: Get videos artifacts
+              uses: actions/upload-artifact@v2
+              if: failure()
+              with:
+                  name: cypress-videos
+                  path: cypress/videos
