@@ -27,8 +27,6 @@ jobs:
 
             - name: Run cypress
               uses: cypress-io/github-action@v4
-              with:
-                  start: npm run start
 
             - name: Get screenshots artifacts
               uses: actions/upload-artifact@v2
